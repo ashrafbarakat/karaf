@@ -181,16 +181,30 @@ public class KarArtifactInstaller implements ArtifactInstaller {
                 if (repository.getURI().equals(karFeatureRepoUri)) {
                     try {
                         for (Feature feature : repository.getFeatures()) {
-                            try {
-                                logger.debug("noAutoRefreshBundles is " + isNoAutoRefreshBundles());
-                                if (isNoAutoRefreshBundles()) {
-                                    featuresService.installFeature(feature, EnumSet.of(FeaturesService.Option.NoAutoRefreshBundles));
-                                } else {
-                                    featuresService.installFeature(feature, EnumSet.noneOf(FeaturesService.Option.class));
+                            if(feature != null && "auto".equals(feature.getInstall())) {
+                                try {
+                                    logger.debug("noAutoRefreshBundles is " + isNoAutoRefreshBundles());
+                                    if (isNoAutoRefreshBundles()) {
+                                        featuresService.installFeature(feature, EnumSet.of(FeaturesService.Option.NoAutoRefreshBundles));
+                                    } else {
+                                        featuresService.installFeature(feature, EnumSet.noneOf(FeaturesService.Option.class));
+                                    }
+                                } catch (Exception e) {
+                                    logger.warn("Unable to install Kar feature {}", feature.getName() + "/" + feature.getVersion(), e);
                                 }
-                            } catch (Exception e) {
-                                logger.warn("Unable to install Kar feature {}", feature.getName() + "/" + feature.getVersion(), e);
                             }
+                            else {
+                                
+                                if(logger.isInfoEnabled()) {
+                                    String featureName = "";
+                                    if(feature != null) {
+                                        featureName = feature.getName();
+                                    }
+                                    logger.info("Feature " + featureName + " is not 'auto' installed - not installing.");
+                                }
+                                
+                            }
+                            
                         }
                     } catch (Exception e) {
                         logger.warn("Can't get features for KAR {}", karFeatureRepoUri, e);
