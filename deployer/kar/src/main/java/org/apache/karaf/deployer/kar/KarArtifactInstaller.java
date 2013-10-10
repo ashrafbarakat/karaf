@@ -187,7 +187,10 @@ public class KarArtifactInstaller implements ArtifactInstaller {
                                     if (isNoAutoRefreshBundles()) {
                                         featuresService.installFeature(feature, EnumSet.of(FeaturesService.Option.NoAutoRefreshBundles));
                                     } else {
-                                        featuresService.installFeature(feature, EnumSet.noneOf(FeaturesService.Option.class));
+                                        // Previously in 2.3.2
+                                        // featuresService.installFeature(feature, EnumSet.noneOf(FeaturesService.Option.class));
+                                        // Changed to below
+                                        featuresService.installFeature(feature, EnumSet.of(FeaturesService.Option.ContinueBatchOnFailure,FeaturesService.Option.NoCleanIfFailure));  
                                     }
                                 } catch (Exception e) {
                                     logger.warn("Unable to install Kar feature {}", feature.getName() + "/" + feature.getVersion(), e);
@@ -204,7 +207,6 @@ public class KarArtifactInstaller implements ArtifactInstaller {
                                 }
                                 
                             }
-                            
                         }
                     } catch (Exception e) {
                         logger.warn("Can't get features for KAR {}", karFeatureRepoUri, e);
