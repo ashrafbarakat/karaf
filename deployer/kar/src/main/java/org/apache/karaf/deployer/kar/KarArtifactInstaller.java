@@ -44,6 +44,7 @@ import org.xml.sax.SAXParseException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -58,6 +59,7 @@ import java.util.zip.ZipFile;
 
 public class KarArtifactInstaller implements ArtifactInstaller {
 
+    private static final String AUTO_INSTALL_MODE = "auto";
     public static final String FEATURES_CLASSIFIER = "features";
     private final Logger logger = LoggerFactory.getLogger(KarArtifactInstaller.class);
 
@@ -194,7 +196,7 @@ public class KarArtifactInstaller implements ArtifactInstaller {
                 if (repository.getURI().equals(karFeatureRepoUri)) {
                     try {
                         for (Feature feature : repository.getFeatures()) {
-                            if(feature != null && "auto".equals(feature.getInstall())) {
+                            if(feature != null && AUTO_INSTALL_MODE.equals(feature.getInstall())) {
                                 try {
                                     logger.debug("noAutoRefreshBundles is " + isNoAutoRefreshBundles());
                                     if (isNoAutoRefreshBundles()) {
