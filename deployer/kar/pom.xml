@@ -29,7 +29,7 @@
     </parent>
 
 	<groupId>org.codice</groupId>
-	<version>2.3.2.1-SNAPSHOT</version>
+	<version>2.3.2.1</version>
     <artifactId>org.apache.karaf.deployer.kar</artifactId>
     <packaging>bundle</packaging>
     <name>Apache Karaf :: Deployer :: Karaf Archive (.kar)</name>
